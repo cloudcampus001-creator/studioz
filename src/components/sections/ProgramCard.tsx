@@ -1,40 +1,60 @@
 import Link from "next/link";
+import Image from "next/image";
+import clsx from "clsx";
 import { ChevronRight } from "lucide-react";
 import { Program } from "@/lib/content";
 import { programIcons } from "@/lib/programIcons";
+import { programImageMap } from "@/lib/images";
 
-export function ProgramCard({ program }: { program: Program }) {
+export function ProgramCard({ program, wide = false }: { program: Program; wide?: boolean }) {
   const Icon = programIcons[program.id];
+  const image = programImageMap[program.id];
+
   return (
     <Link
       href={`/programs/${program.slug}`}
-      className="focus-ring group flex flex-col justify-between rounded-sm border border-line bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-      style={{ borderLeftWidth: 4, borderLeftColor: program.color }}
+      className={clsx(
+        "focus-ring group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-sm shadow-sm transition-shadow duration-300 hover:shadow-xl",
+        wide ? "lg:col-span-3 lg:aspect-[7/5]" : "lg:col-span-2",
+      )}
     >
-      <div>
-        <div className="mb-4 flex items-center gap-3">
-          <div
-            className="flex size-9 shrink-0 items-center justify-center rounded-sm"
-            style={{ backgroundColor: `${program.color}1f` }}
-          >
-            {Icon && <Icon className="size-[18px]" style={{ color: program.color }} aria-hidden />}
-          </div>
-          <span
-            className="rounded-sm px-2.5 py-1 text-xs font-semibold"
-            style={{ color: program.color, border: `1px solid ${program.color}44` }}
-          >
-            {program.tag}
-          </span>
-        </div>
-        <h3 className="font-heading text-xl font-semibold leading-tight text-ink">{program.name}</h3>
-        <p className="mb-5 mt-2 text-sm leading-relaxed text-ink/65">{program.tagline}</p>
+      {image && (
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          sizes={wide ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"}
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+          style={{ objectPosition: image.position }}
+        />
+      )}
+
+      {/* Gradient overlay: dark at bottom for text legibility, program color wash on hover */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/35 to-transparent" />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 mix-blend-multiply transition-opacity duration-300 group-hover:opacity-40"
+        style={{ backgroundColor: program.color }}
+      />
+
+      {/* Top-left tag + icon */}
+      <div className="absolute left-5 top-5 flex items-center gap-2.5">
+        <span className="flex size-9 items-center justify-center rounded-sm bg-white/15 backdrop-blur-sm">
+          {Icon && <Icon className="size-[18px] text-white" aria-hidden />}
+        </span>
+        <span className="rounded-sm bg-white/15 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+          {program.tag}
+        </span>
       </div>
-      <span
-        className="inline-flex items-center gap-1.5 text-sm font-semibold"
-        style={{ color: program.color }}
-      >
-        Learn more <ChevronRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
-      </span>
+
+      {/* Bottom content */}
+      <div className="relative p-6 text-white">
+        <h3 className="font-heading text-xl font-semibold leading-tight">{program.name}</h3>
+        <p className="mb-4 mt-2 text-sm leading-relaxed text-white/85">{program.tagline}</p>
+        <span className="inline-flex items-center gap-1.5 text-sm font-semibold">
+          Learn more
+          <ChevronRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden />
+        </span>
+      </div>
     </Link>
   );
 }

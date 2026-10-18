@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
-import { PageHero } from "@/components/sections/PageHero";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { aboutContent } from "@/lib/content";
+import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -15,7 +16,28 @@ export default function AboutPage() {
 
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow} headline={hero.headline} subheadline={hero.subheadline} />
+      <section className="relative overflow-hidden bg-plum text-white">
+        <Image
+          src={images.aboutHero.src}
+          alt={images.aboutHero.alt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-50"
+          style={{ objectPosition: images.aboutHero.position }}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-plum via-plum/85 to-plum/20" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-plum-dark/60 via-transparent to-transparent" />
+        <Container className="relative py-16 md:py-20">
+          <div className="max-w-3xl">
+            <Eyebrow className="text-coral">{hero.eyebrow}</Eyebrow>
+            <h1 className="font-heading text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
+              {hero.headline}
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">{hero.subheadline}</p>
+          </div>
+        </Container>
+      </section>
 
       {/* Story */}
       <section className="bg-white py-20">
@@ -31,6 +53,17 @@ export default function AboutPage() {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-4 self-start rounded-sm bg-plum-tint p-6">
+            <div className="relative -mx-6 -mt-6 mb-2 aspect-[16/10] overflow-hidden rounded-t-sm">
+              <Image
+                src={images.workshop.src}
+                alt={images.workshop.alt}
+                fill
+                sizes="(min-width: 1024px) 33vw, 100vw"
+                className="object-cover"
+                style={{ objectPosition: images.workshop.position }}
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-plum/50 to-transparent" />
+            </div>
             {story.stats.map((s) => (
               <div key={s.label} className="border-b border-plum/15 pb-4 last:border-0 last:pb-0">
                 <div className="font-heading text-3xl font-bold text-plum">{s.value}</div>

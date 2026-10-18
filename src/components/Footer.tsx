@@ -19,6 +19,7 @@ const socials = [
 ];
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
   return (
     <footer className="border-t border-line bg-ink text-white">
       <Container className="grid grid-cols-1 gap-10 py-16 md:grid-cols-2 lg:grid-cols-4">
@@ -112,7 +113,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <Container className="flex flex-col items-center justify-between gap-3 py-5 text-xs text-white/50 sm:flex-row">
           <p>
-            © {site.founded} {site.name}. All rights reserved.
+            © {currentYear} {site.name}. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
             <Link href="/privacy" className="focus-ring hover:text-white">

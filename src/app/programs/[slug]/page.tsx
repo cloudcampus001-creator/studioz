@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 import { Clock, Layers, GraduationCap, CheckCircle2, BookOpen } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { programs } from "@/lib/content";
 import { programIcons } from "@/lib/programIcons";
+import { programImageMap } from "@/lib/images";
 
 export function generateStaticParams() {
   return programs.map((p) => ({ slug: p.slug }));
@@ -35,12 +38,34 @@ export default async function ProgramDetailPage({
   if (!program) notFound();
 
   const Icon = programIcons[program.id];
+  const image = programImageMap[program.id];
   const otherPrograms = programs.filter((p) => p.id !== program.id);
 
   return (
     <>
-      <section className="text-white" style={{ backgroundColor: program.color }}>
-        <Container className="py-16 md:py-20">
+      <section className="relative overflow-hidden text-white" style={{ backgroundColor: program.color }}>
+        {image && (
+          <>
+            <Image
+              src={image.src}
+              alt={image.alt}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-60"
+              style={{ objectPosition: image.position }}
+            />
+            {/* Program-colour gradient: solid on the text side, clearing to the photo */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                backgroundImage: `linear-gradient(90deg, ${program.color} 0%, ${program.color}E6 38%, ${program.color}55 100%)`,
+              }}
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
+          </>
+        )}
+        <Container className="relative py-16 md:py-24">
           <div className="flex items-center gap-3">
             {Icon && (
               <span className="flex size-12 items-center justify-center rounded-sm bg-white/15">
@@ -118,22 +143,45 @@ export default async function ProgramDetailPage({
         <Container>
           <h2 className="mb-8 font-heading text-2xl font-bold text-ink">Explore Other Programs</h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {otherPrograms.map((p) => (
-              <a
-                key={p.id}
-                href={`/programs/${p.slug}`}
-                className="focus-ring rounded-sm border border-line bg-white p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-                style={{ borderLeftWidth: 4, borderLeftColor: p.color }}
-              >
-                <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: p.color }}>
-                  {p.tag}
-                </span>
-                <p className="mt-1 font-heading text-sm font-semibold text-ink">{p.name}</p>
-              </a>
-            ))}
+            {otherPrograms.map((p) => {
+              const thumb = programImageMap[p.id];
+              return (
+                <Link
+                  key={p.id}
+                  href={`/programs/${p.slug}`}
+                  className="focus-ring group overflow-hidden rounded-sm border border-line bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  {thumb && (
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <Image
+                        src={thumb.src}
+                        alt={thumb.alt}
+                        fill
+                        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                        style={{ objectPosition: thumb.position }}
+                      />
+                      <div
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-1"
+                        style={{ backgroundColor: p.color }}
+                      />
+                    </div>
+                  )}
+                  <div className="p-4">
+                    <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: p.color }}>
+                      {p.tag}
+                    </span>
+                    <p className="mt-1 font-heading text-sm font-semibold text-ink">{p.name}</p>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </Container>
       </section>
     </>
   );
 }
+
+
+

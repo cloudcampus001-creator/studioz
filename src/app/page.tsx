@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, GraduationCap, Building2, Quote } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
@@ -7,6 +8,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { StatBar } from "@/components/sections/StatBar";
 import { ProgramCard } from "@/components/sections/ProgramCard";
 import { home, programs, site } from "@/lib/content";
+import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: `${site.tagline}`,
@@ -17,14 +19,26 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-plum text-white">
-        <Container className="grid grid-cols-1 items-center gap-12 py-20 md:grid-cols-2 md:py-28">
-          <div>
+      <section className="relative overflow-hidden bg-ink text-white">
+        <Image
+          src={images.homeHero.src}
+          alt={images.homeHero.alt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-90"
+          style={{ objectPosition: images.homeHero.position }}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-plum/95 via-plum/70 to-plum/10" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />
+
+        <Container className="relative grid grid-cols-1 items-center gap-12 py-20 md:py-28">
+          <div className="max-w-2xl">
             <Eyebrow className="text-coral">{site.tagline}</Eyebrow>
             <h1 className="font-heading text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
               {home.hero.headline} <span className="text-lavender">{home.hero.headlineAccent}</span>
             </h1>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/80">
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/85">
               {home.hero.subheadline}
             </p>
             <div className="mt-9 flex flex-wrap gap-4">
@@ -34,23 +48,6 @@ export default function HomePage() {
               <Button href="/apprenticeships" variant="outline-light">
                 {home.hero.ctaSecondary}
               </Button>
-            </div>
-          </div>
-
-          <div className="relative">
-            <div className="grid grid-cols-2 gap-4">
-              {programs.slice(0, 4).map((p) => (
-                <div
-                  key={p.id}
-                  className="flex aspect-square flex-col justify-end rounded-sm p-4"
-                  style={{ backgroundColor: `${p.color}33` }}
-                >
-                  <span className="text-xs font-semibold uppercase tracking-wide text-white/70">
-                    {p.tag}
-                  </span>
-                  <span className="font-heading text-sm font-bold text-white">{p.name}</span>
-                </div>
-              ))}
             </div>
           </div>
         </Container>
@@ -90,9 +87,9 @@ export default function HomePage() {
               Every program blends structured learning with real, hands-on apprenticeship experience.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {programs.map((p) => (
-              <ProgramCard key={p.id} program={p} />
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6">
+            {programs.map((p, i) => (
+              <ProgramCard key={p.id} program={p} wide={i >= 3} />
             ))}
           </div>
         </Container>
@@ -102,23 +99,45 @@ export default function HomePage() {
       <section className="bg-paper py-20">
         <Container>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div className="rounded-sm bg-ink p-10 text-white">
-              <GraduationCap className="size-9 text-coral" aria-hidden />
-              <Eyebrow className="mt-6 text-coral">{home.dualCta.students.eyebrow}</Eyebrow>
-              <h3 className="font-heading text-2xl font-bold">{home.dualCta.students.headline}</h3>
-              <p className="mt-3 text-white/70">{home.dualCta.students.description}</p>
-              <Button href="/enroll" variant="inverse" className="mt-7">
-                {home.dualCta.students.cta}
-              </Button>
+            <div className="group relative overflow-hidden rounded-sm p-10 text-white">
+              <Image
+                src={images.students.src}
+                alt={images.students.alt}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                style={{ objectPosition: images.students.position }}
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/65 to-ink/25" />
+              <div className="relative">
+                <GraduationCap className="size-9 text-coral" aria-hidden />
+                <Eyebrow className="mt-6 text-coral">{home.dualCta.students.eyebrow}</Eyebrow>
+                <h3 className="font-heading text-2xl font-bold">{home.dualCta.students.headline}</h3>
+                <p className="mt-3 text-white/75">{home.dualCta.students.description}</p>
+                <Button href="/enroll" variant="inverse" className="mt-7">
+                  {home.dualCta.students.cta}
+                </Button>
+              </div>
             </div>
-            <div className="rounded-sm bg-plum p-10 text-white">
-              <Building2 className="size-9 text-lavender" aria-hidden />
-              <Eyebrow className="mt-6 text-lavender">{home.dualCta.employers.eyebrow}</Eyebrow>
-              <h3 className="font-heading text-2xl font-bold">{home.dualCta.employers.headline}</h3>
-              <p className="mt-3 text-white/80">{home.dualCta.employers.description}</p>
-              <Button href="/apprenticeships" variant="inverse" className="mt-7">
-                {home.dualCta.employers.cta}
-              </Button>
+            <div className="group relative overflow-hidden rounded-sm p-10 text-white">
+              <Image
+                src={images.employers.src}
+                alt={images.employers.alt}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                style={{ objectPosition: images.employers.position }}
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-plum/95 via-plum/65 to-plum/25" />
+              <div className="relative">
+                <Building2 className="size-9 text-lavender" aria-hidden />
+                <Eyebrow className="mt-6 text-lavender">{home.dualCta.employers.eyebrow}</Eyebrow>
+                <h3 className="font-heading text-2xl font-bold">{home.dualCta.employers.headline}</h3>
+                <p className="mt-3 text-white/80">{home.dualCta.employers.description}</p>
+                <Button href="/apprenticeships" variant="inverse" className="mt-7">
+                  {home.dualCta.employers.cta}
+                </Button>
+              </div>
             </div>
           </div>
         </Container>

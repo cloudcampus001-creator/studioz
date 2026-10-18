@@ -6,6 +6,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { ApprenticeshipForm } from "@/components/forms/ApprenticeshipForm";
 import { apprenticeshipsContent } from "@/lib/content";
+import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Apprenticeships for Employers",
@@ -17,7 +18,7 @@ export default function ApprenticeshipsPage() {
 
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow} headline={hero.headline} headlineAccent={hero.headlineAccent} subheadline={hero.subheadline} />
+      <PageHero eyebrow={hero.eyebrow} headline={hero.headline} headlineAccent={hero.headlineAccent} subheadline={hero.subheadline} image={images.employers} />
 
       {/* Why partner */}
       <section className="bg-white py-20">
@@ -87,3 +88,6 @@ export default function ApprenticeshipsPage() {
     </>
   );
 }
+
+
+

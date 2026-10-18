@@ -5,6 +5,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { Accordion } from "@/components/sections/Accordion";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { contactContent, site } from "@/lib/content";
+import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -16,7 +17,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow} headline={hero.headline} subheadline={hero.subheadline} />
+      <PageHero eyebrow={hero.eyebrow} headline={hero.headline} subheadline={hero.subheadline} image={images.contact} />
 
       <section className="bg-white py-20">
         <Container className="grid grid-cols-1 gap-12 lg:grid-cols-5">
@@ -69,3 +70,6 @@ export default function ContactPage() {
     </>
   );
 }
+
+
+

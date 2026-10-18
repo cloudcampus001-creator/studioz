@@ -20,9 +20,9 @@ export default function ProgramsPage() {
       />
       <section className="bg-white py-16">
         <Container>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {programs.map((p) => (
-              <ProgramCard key={p.id} program={p} />
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6">
+            {programs.map((p, i) => (
+              <ProgramCard key={p.id} program={p} wide={i >= 3} />
             ))}
           </div>
         </Container>
@@ -30,3 +30,6 @@ export default function ProgramsPage() {
     </>
   );
 }
+
+
+

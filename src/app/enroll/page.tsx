@@ -5,6 +5,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { EnrollFormSection } from "@/components/forms/EnrollFormSection";
 import { enrollContent } from "@/lib/content";
+import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Enroll Now",
@@ -16,7 +17,7 @@ export default function EnrollPage() {
 
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow} headline={hero.headline} headlineAccent={hero.headlineAccent} subheadline={hero.subheadline} />
+      <PageHero eyebrow={hero.eyebrow} headline={hero.headline} headlineAccent={hero.headlineAccent} subheadline={hero.subheadline} image={images.students} />
 
       <section className="bg-white py-20">
         <Container>
@@ -52,3 +53,6 @@ export default function EnrollPage() {
     </>
   );
 }
+
+
+

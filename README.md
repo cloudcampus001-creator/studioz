@@ -55,13 +55,17 @@ change text.
 
 A couple of things worth knowing:
 
-- **Address/phone discrepancy**: the client's existing live site lists two
-  different addresses — the footer says Buea, Cameroon, while the Contact
-  page says Lagos, Nigeria. This site currently uses the Lagos, Nigeria
-  address (from `site.address` in `content.ts`) as the single source of
-  truth. **Please confirm the correct address and phone number with the
-  client** and update `content.ts` accordingly — the phone number currently
-  in there (`+234 800 000 0000`) is a placeholder.
+- **Address/phone**: the site uses `Mile 18, Buea, Cameroon` and
+  `+237 683245600` everywhere (`src/lib/content.ts` → `site.address` /
+  `site.phone`). The phone `tel:` links are built from `site.phone`, so the
+  displayed number and the dialled number always match. Please confirm both
+  with the client before launch.
+
+  One more thing worth reporting back to the client about their *current*
+  live site: the footer's email link displays `info@learningstudioz.org` but
+  points to `mailto:info@tclearningstudioz.com` — a different domain. That
+  bug was not carried into this rebuild; every link here goes where it says
+  it goes.
 - **Program images / photography**: the site currently uses colour and icon
   treatments instead of photography (the client's existing site links to
   Getty preview images via their GoDaddy hosting, which aren't licensed for
@@ -163,6 +167,27 @@ sqlite3 data/studioz.db "SELECT * FROM apprenticeship_submissions;"
   **not** reproduced — only the generally-observable layout, colour, and
   typographic patterns were used, applied to Learning Studioz's own name and
   branding.
+
+---
+
+## 6a. Photography
+
+The site uses seven client-supplied photographs, stored in
+`/public/images/` and registered in one place: `src/lib/images.ts`.
+
+| File | Used for |
+|---|---|
+| `program-agri.webp` | Agrientrepreneurship card + program page |
+| `program-it.webp` | Information Technology card + program page, student panel, Enroll hero |
+| `program-design.webp` | Design card + program page, About hero |
+| `program-arts.webp` | Arts card + program page, Contact hero |
+| `craft-chair.webp` | Technical Trades card + program page |
+| `program-technical.webp` | Home hero, About page workshop photo |
+| `employers.webp` | Employer panel on Home, Apprenticeships hero |
+
+To swap a photo, replace the file (same name) or point `src` in
+`images.ts` at a new file. `position` controls how it is cropped on wide
+banners.
 
 ---
 

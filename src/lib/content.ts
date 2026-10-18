@@ -16,10 +16,10 @@ export const site = {
     general: "info@learningstudioz.org",
     admissions: "admissions@learningstudioz.org",
   },
-  phone: "+234 800 000 0000",
+  phone: "+237 683245600",
   address: {
-    line1: "TC-Learning Studioz",
-    line2: "Lagos, Nigeria",
+    line1: "Mile 18",
+    line2: "Buea, Cameroon",
   },
   hours: {
     weekdays: "Monday – Friday: 8:00 AM – 5:00 PM",
@@ -32,7 +32,9 @@ export const site = {
     twitter: "#",
     youtube: "#",
   },
-  founded: 2026,
+  // No founding year is present anywhere in the client's site data.
+  // If you want to show "Est. 20XX" somewhere, get the real year from the
+  // client and add it here — nothing currently reads this field.
 };
 
 export type Program = {
